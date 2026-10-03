@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Web Site agroWORLD - Gestão Tecnológica de Terrenos</title>
+    <link rel="icon" type="image/png" href="./imagens/logo.png">
+    <style>
+        /* Estilos Globais */
+        :root {
+            --verde-escuro: #1b4332;
+            --verde-claro: #2d6a4f;
+            --verde-destaque: #74c69d;
+            --azul-agua: #0077b6;
+            --fundo: #f4f7f6;
+            --texto: #333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--fundo);
+            color: var(--texto);
+        }
+        
+        /* Cabeçalho e Navegação */
+        header {
+            background-color: var(--verde-escuro);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        /* Menu Principal e Dropdown */
+        .menu-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+        }
+        nav a:hover {
+            background-color: var(--verde-claro);
+        }
+
+        /* O Dropdown Menu (Menu Áreas de Negócio) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-btn {
+            background-color: var(--verde-destaque);
+            color: #1b4332;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 250px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .dropdown-content a {
+            color: var(--texto);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            color: var(--verde-escuro);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropdown-btn {
+            background-color: #52b788;
+        }
+
+        /* Área de Destaque (Hero) */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1586771107445-d3ca888129ff?q=80&w=1200&auto=format&fit=crop') no-repeat center center/cover;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        /* Contentores e Secções */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            scroll-margin-top: 80px;
+        }
+        .section h2 {
+            color: var(--verde-escuro);
+            border-bottom: 3px solid var(--verde-claro);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Mapas e Painéis */
+        .painel-tech {
+            width: 100%;
+            height: auto;
+            min-height: 200px;
+            background-color: #2b2b2b;
+            color: #4CAF50;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            box-sizing: border-box;
+            margin-top: 1rem;
+        }
+
+        /* Grelhas de Informação */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .card {
+            background: #fff;
+            padding: 1.5rem;
+            border: 1px solid #eee;
+            border-left: 5px solid var(--verde-claro);
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .card.piscicultura { border-left-color: var(--azul-agua); }
+        .card.pecuaria { border-left-color: #e07a5f; }
+        .card.logistica { border-left-color: #81b29a; }
+
+        /* Formulário de Contacto */
+        .form-contacto {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 700px;
+            margin: 2rem auto 0 auto;
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .form-contacto label {
+            font-weight: bold;
+            color: var(--verde-escuro);
+            margin-bottom: 5px;
+            display: block;
+        }
+        .form-contacto input, .form-contacto select, .form-contacto textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .form-contacto button {
+            background-color: var(--verde-escuro);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .form-contacto button:hover {
+            background-color: var(--verde-claro);
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="align-items: end;"></div>
+        <img src="./imagens/logo.png" alt="logotipo" width="60px"></img>
+        <div style="align-items: end;">
+        </div>
+        <div style="text-align: left;">
+        <h1 style="margin-bottom:2px" style="margin-left:100px" style="margin-top:6px" > AgroWORLD</h1>
+        <h3 style="margin-top: 7px; margin-bottom: -2px; font-size:10px">CULTIVANDO SUSTENTABILIDADE E OPORTUNIDADE NO PAÍS E NO MUNDO</h3>
+        </div>
+        <div class="menu-container">
+            <nav>
+                <a href="#terreno">Mapa</a>
+                <a href="#residencias">Instalações</a>
+                <a href="#contactos" style="color: var(--verde-destaque);">Contactos</a>
+            </nav>
+            
+            <!-- MENU CANTO SUPERIOR DIREITO -->
+            <div class="dropdown">
+                <button class="dropdown-btn">☰ Departamentos agroWORLD</button>
+                <div class="dropdown-content">
+                    <a href="#agronomia">🌾 Agronomia & Drones</a>
+                    <a href="#piscicultura">🐟 Piscicultura Tech</a>
+                    <a href="#pecuaria">🐄 Pecuária de Precisão</a>
+                    <a href="#logistica">🚢 Exportação e Logística</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div>
+            <h2 style="font-size: 2.5rem;">Fazenda Futuro Verde | Complexo Agroindustrial e Pecuário Megafazenda de Angola</h2>
+            <p style="font-size: 1.2rem;">Gestão Inteligente de Propriedades Agrícolas: Mapeamento, subdivisões e controlo total do terreno num só lugar.</p>
+            <p style="font-size: 1.2rem;">Agricultura Inteligente, Aquicultura, Pecuária e Logística Global em tempo real.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- VISUALIZAR TERRENO E LOCALIZAÇÃO -->
+        <section id="terreno" class="section">
+            <h2>🗺️ Mapeamento e Terreno Central</h2>
+            <p>Acompanhe a topografia geral, limites territoriais e imagens de satélite atualizadas da sua propriedade.</p>
+            <div class="mapa-interativo, align-items=center">
+                <img src="./imagens/mapa satelite.jpg" width="100%" style="border-radius: 6px;">
+            </div>
+        </section>
+
+        <!-- LOCALIZAÇÃO E ÁREA -->
+        <section id="localizacao" class="section">
+            <h2>Área e Localização Geográfica</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>🌎 Coordenadas Geográficas do Projecto (Bacia do Rio Cuando / Leste de Angola)</h3>
+                    <br><strong>Ponto Central (Sede e Infraestrutura)</strong>: <div>14°15'<a href="tel:00.0">00.0</a>
+                    "S 20°30'<a href="tel:00.0">00.0</a>"E (-<a href="tel:14.250000">14.250000</a>, <a href="tel:20.500000">20.500000</a>)</div>
+                    <br><strong>Zona de Piscicultura e Reservatório</strong>: <div> 14°08'<a href="tel:24.0">24.0</a>"S 20°42'<a href="tel:15.0">15.0</a>"E (-<a href="tel:14.140000">14.140000</a>, <a href="tel:20.704167">20.704167</a>)</div>
+                    <br><strong>Zona Agrícola Pivotada (Norte)</strong>:<div> 13°45'<a href="tel:00.0">00.0</a>"S 20°30'<a href="tel:00.0">00.0</a>"E (-<a href="tel:13.750000">13.750000</a>, <a href="tel:20.500000">20.500000</a>)<br> * Zona de Pecuária / Pastejo (Sul): 14°50'<a href="tel:00.0">00.0</a>"S 20°15'<a href="tel:00.0">00.0</a>"E (-<a href="tel:14.833333">14.833333</a>, <a href="tel:20.250000">20.250000</a>)</div>
+                    <br><strong>Aeroporto de Carga</strong>:<div> 14°18'<a href="tel:30.0">30.0</a>"S 20°35'<a href="tel:12.0">12.0</a>"E (-<a href="tel:14.308333">14.308333</a>, <a href="tel:20.586667">20.586667</a>)</div>
+                </div>
+                <div class="card">
+                    <h3>📏 Dimensão Total</h3>
+                    <p><strong>Área:</strong> 27,3 milhões de Hectares; 3x maior que a maior Fazenda do mundo. <div style="margin-top: -10px;">Equivalente à aproximadamente 22% do território Angolano</div></p>
+                    <p><strong>Perímetro em fornato retangular:</strong> (proporcão 1/2: 369.5km*738,9km)=~2 217 km²</p>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: -7px;">📍 Morada Física</h3>
+                    <br><strong>Fazenda Futuro Verde | Complexo Agroindustrial e Pecuário Megafazenda de Angola</strong> </br>
+<br><strong>Via de Acesso</strong>: Corredor de Desenvolvimento Leste (Bacia Hidrográfica do Rio Cuando)<br>
+<strong>Comuna</strong>: Lumbala N'guimbo
+<br><strong>Município</strong>: Bundas
+<br><strong>Província</strong>: Moxico
+<br><strong>País</strong>: Angola
+<br><strong>Ponto de Referência</strong>: Sector Leste do Território Nacional, ao longo do curso superior do Rio Cuando (Acesso via EN-<a href="tel:250">250</a> / Leste de Angola)</br>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUBDIVISÕES -->
+        <section id="subdivisoes" class="section">
+            <h2>Subdivisões (Talhões / Lotes)</h2>
+            <p>Abaixo encontra-se a divisão do terreno consoante a utilidade agrícola atual.</p>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>Agricultura (Cultivos Agrícolas)</h3>
+                    <p><strong>Cultivo Atual:</strong> Geral: Frutas, Vegetais, Ortalicas e diversos</p>
+                    <p><strong>Área:</strong> 12 milhões de Hectares (120.000km²), 44% da área total</p>
+                    <p><strong>Estado:</strong> Em fase idealizacão inicial.</p>
+                </div>
+                <div class="card">
+                    <h3>Piscicultura e Sistemas Aquícolas (Criacões de espécies aquáticos)</h3>
+                    <p><strong>Criacão Atual:</strong> Geral, espécies diversos</p>
+                    <p><strong>Área:</strong> 3.5 milhões de Hectares (35.000km²), 12.8% da área total</p>
+                    <p><strong>Estado:</strong> Em fase idealizacão inicial.</p>
+                </div>
+                <div class="card">
+                    <h3>Criacão de Gados e outras espécies (Criacão Geral)</h3>
+                    <p><strong>Criacão Atual:</strong> Bovino, Suíno, Caprino, Aves, diversos</p>
+                    <p><strong>Área:</strong> 10 milhões de Hectares (100.000km²), 36.6% da área Total</p>
+                    <p><strong>Estado:</strong> Em fase de idealizacão inicial.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- DEPARTAMENTO DE AGRONOMIA E AGRICULTURA (DRONES) -->
+        <section id="agronomia" class="section">
+            <h2>🌾 Agronomia e Inteligência Artificial</h2>
+            <p>Mapeamento e monitorização agrícola baseada na mais recente pesquisa de agro-inovação.</p>
+            <div class="grid-cards">
+                <div class="card">
+                    <h3 style="color: var(--verde-escuro);">🛸 Frota de Drones</h3>
+                    <p>Mapeamento aéreo diário. Controlo de níveis de radiação solar sobre os talhões de cultivo e monitorização do stress hídrico das plantas.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--verde-escuro);">🐛 Deteção de Pragas</h3>
+                    <p>Sensores infravermelhos identificam precocemente ataques de vermes, insetos e doenças no perímetro agrícola.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--verde-escuro);">🔊 Repulsão Tecnológica</h3>
+                    <p>Sistemas automatizados que utilizam emissões de ruídos de alta frequência e radiação controlada para afugentar pragas sem químicos severos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PISCICULTURA -->
+        <section id="piscicultura" class="section">
+            <h2 style="color: var(--azul-agua); border-bottom-color: var(--azul-agua);">🐟 Piscicultura de Alta Tecnologia</h2>
+            <p>Produção aquícola em tanques controlados por sensores subaquáticos.</p>
+            <div class="painel-tech">
+                > SISTEMA DE MONITORIZAÇÃO DE ÁGUA ONLINE... <br>
+                > Tanque 1 (Tilápia): pH 7.2 | Temp: 26°C | Oxigénio: Excelente<br>
+                > ALERTA: Leitura de impurezas a 3% - Acionando filtros automáticos.<br>
+                > Nível de Amónia: Estável.
+            </div>
+        </section>
+
+        <!-- PECUÁRIA -->
+        <section id="pecuaria" class="section">
+            <h2 style="color: #e07a5f; border-bottom-color: #e07a5f;">🐄 Criação de Gado e Pecuária de Precisão</h2>
+            <p>Controlo do rebanho através de biometria e sistemas de alimentação automatizados.</p>
+            <div class="grid-cards">
+                <div class="card pecuaria">
+                    <h3>🌾 Gestão de Ração</h3>
+                    <p>Dispensadores automáticos controlam a quantidade exata de ração fornecida por animal, garantindo nutrição sem desperdícios.</p>
+                </div>
+                <div class="card pecuaria">
+                    <h3>🧪 Composição Química</h3>
+                    <p>Análise em tempo real dos bebedouros e mistura nutricional da forragem para assegurar a saúde do gado.</p>
+                </div>
+                <div class="card pecuaria">
+                    <h3>📡 Mapeamento de Saúde</h3>
+                    <p>Biometria do gado. Monitorização do estado físico, temperatura e ciclo de desenvolvimento de cada animal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOGÍSTICA E EXPORTAÇÃO -->
+        <section id="logistica" class="section">
+            <h2 style="color: #457b9d; border-bottom-color: #457b9d;">🚢 Importação, Exportação e Logística</h2>
+            <p>A ponte entre a produção agroWORLD e os mercados nacionais e internacionais.</p>
+            <div class="grid-cards">
+                <div class="card logistica">
+                    <h3>🇦🇴 Distribuição Nacional</h3>
+                    <p>Cadeia de frio e frotas terrestres mapeadas por GPS. Distribuição garantida a todo o país com rastreabilidade total.</p>
+                </div>
+                <div class="card logistica">
+                    <h3>🌍 Mercado Global</h3>
+                    <p>Gestão aduaneira e logística portuária. Exportação de produtos agropecuários para o mercado internacional via Porto do Lobito.</p>
+                </div>
+                <div class="card logistica">
+                    <h3>📦 Importação de Insumos</h3>
+                    <p>Controlo rigoroso do fluxo de entrada de fertilizantes biológicos, drones e sensores tecnológicos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESIDÊNCIAS E INSTALAÇÕES FUNCIONÁRIOS -->
+        <section id="residencias" class="section">
+            <h2>🏢 Complexo Administrativo e Residencial</h2>
+            <p>Infraestrutura dedicada ao bem-estar e gestão estratégica da equipa.</p>
+            <ul style="list-style: none; padding: 0;">
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #f4a261;">
+                    <strong>🏠 Residências dos Funcionários:</strong> Alojamentos modernos com climatização e zonas de lazer para garantir o conforto da equipa residente.
+                </li>
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #e76f51;">
+                    <strong>🤝 Salas de Reuniões:</strong> Espaços equipados com tecnologia para planeamento, relatórios de colheita e videoconferências globais.
+                </li>
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #2a9d8f;">
+                    <strong>🏥 Centro de Apoio:</strong> Refeitório de alta qualidade e centro de primeiros socorros integrado na propriedade.
+                </li>
+            </ul>
+        </section>
+
+        <!-- OUTROS PARTIMENTOS -->
+        <section id="residencias" class="section">
+            <h2>Outros Partimentos e Infraestruturas</h2>
+            <p>Gestão das instalações físicas anexas ao terreno agrícola.</p>
+            <ul class="lista-partimentos">
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #f4a261;">
+                    <strong>🏠 Infraestrutura, Cidade-Sede e Proteccão Ambiental:</strong> Área reservada com 1.800.000 hectares (18.000km²), 6,6% da área Total.</li>
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #06db06;">
+                    <strong>🚜 Parque de Máquinas:</strong> Área reservada com 2.500m² para estacionamento de tratores, semeadoras e carrinhas de transporte.</li>
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #2f00ff;">
+                    <strong>🏭 Armazém Principal (Silos):</strong> Capacidade para armazenamento de 500 toneladas de grãos com sistema de ventilação.</li>
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #008337;">
+                    <strong>💧 Sistema de Captação e Irrigação:</strong> Bombas de água ligadas ao rio local e sistema de rega gota-a-gota distribuído pelos Lotes Alfa e Bravo.</li>
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #13007e;">
+                    <strong>🏠 Complexo Residencial:</strong> 8 Alojamentos para os trabalhadores, refeitório e central de primeiros socorros.</li>
+                <li style="background: #f9f9f9; margin-bottom: 10px; padding: 15px; border-radius: 5px; border-left: 4px solid #00d3d3;">
+                    <strong>🧪 Laboratório de Solos:</strong> Pequena infraestrutura para análise rápida de pH, humidade e nutrientes da terra.</li>
+            </ul>
+        </section>
+
+    </div>
+
+        <!-- NOVO: CONTACTOS E PARCERIAS -->
+        <section id="contactos" class="section">
+            <h2 style="justify-content: center;">🤝 Contacto e Parcerias</h2>
+            <p style="text-align: center;">Área exclusiva para comunicação com o desenvolvedor. Solicite parcerias, agende reuniões ou envie mensagens sobre qualquer assunto relacionado com o projeto agroWORLD.</p>
+            
+            <form action="https://formsubmit.co/alexcostasantarosa@gmail.com" class="form-contacto" method="POST">
+                <div>
+                    <label for="nome">Nome Completo / Empresa:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Ex: Adilson Santa-Rosa ou Empresa X" required>
+                </div>
+                
+                <div>
+                    <label for="email">E-mail de Contacto:</label>
+                    <input type="email" id="email" name="email" placeholder="exemplo@email.com" required>
+                </div>
+                
+                <div>
+                    <label for="assunto">Motivo do Contacto:</label>
+                    <select id="assunto" name="assunto">
+                        <option value="parceria">Proposta de Parceria</option>
+                        <option value="reuniao">Agendar Reunião de Negócios</option>
+                        <option value="tecnologia">Dúvidas sobre a Tecnologia / Controlo</option>
+                        <option value="outro">Outro Assunto</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="mensagem">Mensagem / Detalhes da Reunião:</label>
+                    <textarea id="mensagem" name="mensagem" rows="5" placeholder="Descreva o motivo do seu contacto, datas preferenciais para reunião ou detalhes da parceria..." required></textarea>
+                </div>
+                
+                <button type="submit">Enviar Mensagem ao Desenvolvedor</button>
+            </form>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Web Site agroWORLD. Inovação Tecnológica na Agricultura, Pecuária e Logística.</p>
+    </footer>
+
+</body>
+</html>
